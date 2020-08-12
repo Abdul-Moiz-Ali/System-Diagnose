@@ -1,0 +1,150 @@
+
+body {
+
+    background-color: #eceff1;
+}
+
+._cursor-style {
+
+    cursor: pointer;
+}
+
+._hover-color:hover {
+
+    background-color: #b0bec5 !important;
+}
+
+._loader {
+
+    position: relative;
+    margin-top: 20%;
+    margin-left: 45%;
+}
+
+._sidenav-icon {
+
+    margin-left: 32%;
+    margin-top: 5%;
+}
+
+._sidenav-text {
+
+    margin-left: 10%;
+    font-size: x-large;
+}
+
+._divider {
+
+    margin-top: 10%;
+}
+
+._collection-header-text {
+
+    font-size: 40px;
+    color: #78909c;
+}
+
+._collection-header-icon {
+
+    margin-left: 1%;
+    color: #78909c;
+}
+
+._collection-item-text {
+
+    color: #90a4ae;
+    font-size: large;
+}
+
+#main-content {
+
+    margin-top: 1%;
+}
+
+._sidenav-trigger {
+
+    float: left;
+    position: relative;
+    z-index: 1;
+    height: 56px;
+    margin: 0 18px;
+}
+  
+._sidenav-trigger i {
+
+    height: 56px;
+    line-height: 56px;
+}
+
+.collection li:not(:first-child) {
+
+    border: 0px !important;
+}
+
+/* .collection li {
+
+    background-color: #fafafa !important;
+} */
+
+.progress {
+
+    background-color: #e0e0e0 !important;
+    height: 7px !important;
+    width: 50% !important;
+}
+
+.determinate {
+
+    background-color: #80cbc4 !important;
+}
+
+._batterylevel-text {
+
+    font-size: x-large;
+    color: #90a4ae;
+}
+
+._battery-charging-indicator {
+
+    color: #90a4ae;
+}
+
+.nav-wrapper {
+
+    background-color: #607d8b !important;
+}
+
+._flags-style {
+
+    text-align: center;
+    color: #0BACA1;
+    font-size: large;
+}
+
+._soft-ver {
+
+    color: #90a4ae;
+    text-align: right;
+}
+
+@media only screen and (min-width: 1134px) {
+
+    ._sidenav-trigger {
+
+        display: none;
+    }
+}
+
+@media only screen and (max-width: 1133px) {
+
+    ._nav-link-list {
+
+        display: none !important;
+    }
+
+    ._sidenav-trigger, ._sidenav-trigger i {
+
+        height: 64px;
+        line-height: 64px;
+    }
+}

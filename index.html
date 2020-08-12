@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./node_modules/material-design-icons/iconfont/material-icons.css">
+    <link rel="stylesheet" href="./node_modules/materialize-css/dist/css/materialize.min.css">
+    <link rel="stylesheet" href="./node_modules/animate.css/animate.min.css"">
+    <link rel="stylesheet" href="./style.css">
+    <title>System Diagnose</title>
+</head>
+
+<body>
+
+    <header>
+        <nav>
+            <div class="nav-wrapper">
+                <a data-target="mobile-demo" class="_sidenav-trigger _cursor-style"><i class="material-icons">menu</i></a>
+                <ul class="left _nav-link-list">
+                    <li id="system-link" class="_header-links"><a><i class="material-icons left">build</i>System</a></li>
+                    <li id="cpu-link" class="_header-links"><a><i class="material-icons left">memory</i>CPU</a></li>
+                    <li id="memory-link" class="_header-links"><a><i class="material-icons left">storage</i>Memory</a></li>
+                    <li id="disk-link" class="_header-links"><a><i class="material-icons left">folder_open</i>Disks / FS</a></li>
+                    <li id="graphics-link" class="_header-links"><a><i class="material-icons left">desktop_windows</i>Graphics</a></li>
+                    <li id="os-link" class="_header-links"><a><i class="material-icons left">data_usage</i>OS</a></li>
+                    <li id="processes-link" class="_header-links"><a><i class="material-icons left">sync</i>Processes</a></li>
+                    <li id="network-link" class="_header-links"><a><i class="material-icons left">settings_input_antenna</i>Network</a></li>
+                    <li class="_header-links"><a><i class="material-icons left">info_outline</i>About</a></li>
+                </ul>
+            </div>
+        </nav>
+
+        <ul id="mobile-demo" class="sidenav">
+            <li>
+                <div>
+                    <i id="info-icon" class="large material-icons blue-grey-text text-lighten-1 _sidenav-icon">info_outline</i>
+                </div>
+                <div>
+                    <span id="version-text" class="blue-grey-text text-darken-1 _sidenav-text"></span>
+                </div>
+            </li>
+            <li><div class="divider"></div></li>
+            <li id="system-link" class="_cursor-style _hover-color hoverable _divider"><a><i class="material-icons left">build</i>System</a></li>
+            <li id="cpu-link" class="_cursor-style _hover-color hoverable"><a><i class="material-icons left">memory</i>CPU</a></li>
+            <li id="memory-link" class="_cursor-style _hover-color hoverable"><a><i class="material-icons left">storage</i>Memory</a></li>
+            <li id="disk-link" class="_cursor-style _hover-color hoverable"><a><i class="material-icons left">folder_open</i>Disks / FS</a></li>
+            <li id="graphics-link" class="_cursor-style _hover-color hoverable"><a><i class="material-icons left">desktop_windows</i>Graphics</a></li>
+            <li id="os-link" class="_cursor-style _hover-color hoverable"><a><i class="material-icons left">data_usage</i>OS</a></li>
+            <li id="processes-link" class="_cursor-style _hover-color hoverable"><a><i class="material-icons left">sync</i>Processes</a></li>
+            <li id="network-link" class="_cursor-style _hover-color hoverable"><a><i class="material-icons left">settings_input_antenna</i>Network</a></li>
+            <li class="_cursor-style _hover-color hoverable"><a><i class="material-icons left">info_outline</i>About</a></li>
+        </ul>
+    </header>
+
+    <main>
+        <div id="main-content">
+        </div>
+    </main>
+
+    <script src="./node_modules/materialize-css/dist/js/materialize.min.js"></script>
+    <script>
+        require('./script.js');
+    </script>
+
+</body>
+
+</html>
