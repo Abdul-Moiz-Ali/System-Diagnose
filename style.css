@@ -127,6 +127,33 @@ body {
     text-align: right;
 }
 
+._table-container {
+
+    background-color: white;
+    padding: 1%;
+    margin-top: .5%;
+    border: .5px solid #e0e0e0;
+}
+
+._table-header-icon {
+
+    margin-left: .5%;
+    color: #78909c;
+}
+
+._table-td {
+
+    color: #0BACA1;
+    font-size: large;
+    border: .5px solid #e0e0e0;
+}
+
+._table-header-container {
+
+    border-bottom: .5px solid #e0e0e0;
+    padding-bottom: 1%;
+}
+
 @media only screen and (min-width: 1134px) {
 
     ._sidenav-trigger {

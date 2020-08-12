@@ -1,8 +1,11 @@
 
 const { app } = require('electron').remote;
 const { 
+
     buildSystemInfo, buildCPUInfo, buildMemoryInfo, buildGraphicsInfo,
-    buildOSInfo 
+    buildOSInfo,
+    buildDiskLayoutInfo
+
 } = require('./builder');
 const si = require('systeminformation');
 
@@ -231,6 +234,17 @@ async function viewMemoryInfo() {
 async function viewDiskInfo() {
 
     initializePageView(diskLinks);
+
+    const diskLayoutInfo = await si.diskLayout();
+    const partitionInfo = await si.blockDevices();
+    const fsInfo = await si.fsSize();
+
+    setTimeout(() => {
+
+        mainContent.innerHTML = buildDiskLayoutInfo(diskLayoutInfo);
+
+    }, timeoutDelay);
+
 }
 
 async function viewGraphicsInfo() {
@@ -285,7 +299,9 @@ async function viewProcessessInfo() {
 
 async function viewNetworkInfo() {
 
-    initializePageView();
+    initializePageView(networkLinks);
 }
 
 viewSystemInfo();
+
+si.diskLayout().then(data => console.log(data));
