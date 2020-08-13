@@ -217,7 +217,7 @@ module.exports.buildOSInfo = (osInfo, uuid, userInfo, packagesInfo) => {
     return displayOutput;
 }
 
-module.exports.buildStorageProgress = (drives) => {
+function buildStorageProgress(drives) {
 
     let output = '';
     drives.forEach(drive => {
@@ -288,7 +288,7 @@ module.exports.buildDrivesInfo = (drives) => {
         </div>
         <div class="col l5 m12 s12 animate__animated animate__fadeIn">
             <div class="_loader-container">
-                ${this.buildStorageProgress(drives)}
+                ${buildStorageProgress(drives)}
             </div>
         </div>
     </div>
