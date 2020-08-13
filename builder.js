@@ -218,7 +218,7 @@ module.exports.buildOSInfo = (osInfo, uuid, userInfo, packagesInfo) => {
 }
 
 module.exports.buildStorageProgress = (drives) => {
-    console.log(drives);
+
     let output = '';
     drives.forEach(drive => {
         if(drive.size > 0) {

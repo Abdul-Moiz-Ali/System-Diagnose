@@ -329,6 +329,12 @@ async function viewProcessessInfo() {
 async function viewNetworkInfo() {
 
     initializePageView(networkLinks);
+
+    si.networkInterfaces().then(data => console.log(data));
+    si.networkInterfaceDefault().then(data => console.log(data));
+    si.networkGatewayDefault().then(data => console.log(data));
+    si.networkStats().then(data => console.log(data));
+    si.wifiNetworks().then(data => console.log(data));
 }
 
 viewSystemInfo();
