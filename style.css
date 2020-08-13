@@ -90,8 +90,12 @@ body {
 .progress {
 
     background-color: #e0e0e0 !important;
+}
+
+._charging-progress {
+    
     height: 7px !important;
-    width: 50% !important;
+    width: 50% !important; /* 50% */
 }
 
 .determinate {
@@ -193,4 +197,38 @@ body {
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
     -ms-overflow-style: -ms-autohiding-scrollbar;
+}
+
+._drives-table {
+    margin-bottom: 1%;
+}
+
+._loader-container {
+
+    background-color: white;
+    border: .5px solid #e0e0e0;
+    margin-top: .8%;
+    padding-top: 6%;
+    padding-bottom: 2%;
+}
+
+._storage-progress {
+
+    height: 20px;
+}
+
+._total-storage-text {
+
+    font-size: x-large;
+    color: #90a4ae;
+}
+
+._storage-text {
+
+    font-size: large;
+    color: #90a4ae;
+}
+
+._free-storage-text {
+    float: right;
 }

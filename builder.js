@@ -217,12 +217,91 @@ module.exports.buildOSInfo = (osInfo, uuid, userInfo, packagesInfo) => {
     return displayOutput;
 }
 
+module.exports.buildStorageProgress = (drives) => {
+    console.log(drives);
+    let output = '';
+    drives.forEach(drive => {
+        if(drive.size > 0) {
+            output += `
+            <div class="container">
+                <span class="_total-storage-text">Local Disk (${drive.localDisk}) - ${(drive.size / (Math.pow(2, 30))).toFixed(2)} GB</span>
+                <div class="progress _storage-progress">
+                    <div class="determinate" style="width: ${drive.use.toFixed(2)}%"></div>
+                </div>
+                <span class="_storage-text">
+                    <span>${(drive.used / (Math.pow(2, 30))).toFixed(2)} GB Used</span>
+                    <span class="_free-storage-text">${((drive.size - drive.used) / Math.pow(2, 30)).toFixed(2)} GB Free</span>
+                </span>
+            </div>
+            <br>
+            `;
+        }
+    });
+
+    return output;
+}
+
+module.exports.buildDrivesInfo = (drives) => {
+
+    const rows = drives.map(drive => {
+        return `
+        <tr>
+            <td class="_table-td">${drive.localDisk?drive.localDisk:'N/A'}</td>
+            <td class="_table-td">${drive.fsType?drive.fsType:'N/A'}</td>
+            <td class="_table-td">${drive.location?drive.location:'N/A'}</td>
+            <td class="_table-td">${drive.removable?'Yes':'NO'}</td>
+            <td class="_table-td">${drive.type?drive.type:'N/A'}</td>
+            <td class="_table-td">${drive.serial?drive.serial:'N/A'}</td>
+            <td class="_table-td">${drive.uuid?drive.uuid:'N/A'}</td>
+            <td class="_table-td">${drive.size?`${(drive.size / (Math.pow(2, 30))).toFixed(2)} GB`:'N/A'}</td>
+            <td class="_table-td">${drive.used?`${(drive.used / (Math.pow(2, 30))).toFixed(2)} GB`:'N/A'}</td>
+            <td class="_table-td">${drive.use?`${drive.use.toFixed(2)} %`:'N/A'}</td>
+        </tr>
+        `;
+    }).join().replace(/,/g, '');
+
+    const displayOutput = `
+    <div class="row">
+        <div class="col l7 m12 s12 animate__animated animate__fadeIn">
+            <div class="_table-container">
+                <table class="table-responsive _drives-table">
+                    <div class="_table-header-container"><span class="_collection-header-text">Local Disks</span><span class="_table-header-icon"><i class="small material-icons">album</i></span></div>
+                    <thead>
+                        <tr>
+                            <td class="_collection-item-text">Disk</td>
+                            <td class="_collection-item-text">FS Type</td>
+                            <td class="_collection-item-text">Location</td>
+                            <td class="_collection-item-text">Removable</td>
+                            <td class="_collection-item-text">Type</td>
+                            <td class="_collection-item-text">Serial</td>
+                            <td class="_collection-item-text">UUID</td>
+                            <td class="_collection-item-text">Size</td>
+                            <td class="_collection-item-text">Used</td>
+                            <td class="_collection-item-text">Used %</td>
+                        </tr>
+                    </thead>
+                    <tbod>
+                        ${rows}
+                    </tbod>
+                </table>
+            </div>
+        </div>
+        <div class="col l5 m12 s12 animate__animated animate__fadeIn">
+            <div class="_loader-container">
+                ${this.buildStorageProgress(drives)}
+            </div>
+        </div>
+    </div>
+    `;
+
+    return displayOutput;
+}
+
 module.exports.buildDiskLayoutInfo = (diskLayoutInfo) => {
 
     const rows = diskLayoutInfo.map(disk => {
         return `
         <tr>
-            <td class="_table-td">${disk.device?disk.device:'N/A'}</td>
             <td class="_table-td">${disk.type?disk.type:'N/A'}</td>
             <td class="_table-td">${disk.name?disk.name:'N/A'}</td>
             <td class="_table-td">${disk.vendor?disk.vendor:'N/A'}</td>
@@ -250,7 +329,6 @@ module.exports.buildDiskLayoutInfo = (diskLayoutInfo) => {
                     <div class="_table-header-container"><span class="_collection-header-text">Hard Drive(s)</span><span class="_table-header-icon"><ion-icon src="${'./icons/hard-drive.svg'}"></ion-icon></span></div>
                     <thead>
                         <tr>
-                            <td class="_collection-item-text">Device</td>
                             <td class="_collection-item-text">Type</td>
                             <td class="_collection-item-text">Name</td>
                             <td class="_collection-item-text">Vendor</td>

@@ -5,7 +5,8 @@ const {
     buildSystemInfo, buildCPUInfo, buildMemoryInfo, buildGraphicsInfo,
     buildOSInfo,
     buildDiskLayoutInfo,
-    buildStorageChart
+    buildStorageChart,
+    buildDrivesInfo
 
 } = require('./builder');
 const si = require('systeminformation');
@@ -134,9 +135,9 @@ async function getBatteryInfo() {
         <ul class="collection with-header">
             <li class="collection-header"><span class="_collection-header-text">Battery</span><span class="_collection-header-icon"><i class="small material-icons">battery_full</i></span></li>
             <li class="collection-item">
-                <span class="_batterylevel-text">${batteryInfo.percent}%</span>
+                <span class="_batterylevel-text">${batteryInfo.percent>100?100:batteryInfo.percent}%</span>
                 ${batteryChargingIndicator}
-                <div class="progress">
+                <div class="progress _charging-progress">
                     <div class="determinate" style="width: ${batteryInfo.percent}%"></div>
                 </div>
             </li>
@@ -240,12 +241,26 @@ async function viewDiskInfo() {
     const partitionInfo = await si.blockDevices();
     const fsInfo = await si.fsSize();
 
-    console.log(partitionInfo);
-    console.log(fsInfo);
+    const drives = fsInfo.map((key, index) => {
+        return {
+            localDisk: key.fs,
+            fsType: key.type,
+            location: partitionInfo[index].physical,
+            removable: partitionInfo[index].removable,
+            type: partitionInfo[index].type,
+            serial: partitionInfo[index].serial,
+            uuid: partitionInfo[index].uuid,
+            size: key.size,
+            used: key.used,
+            use: key.use
+        }
+    });
 
     setTimeout(() => {
 
-        mainContent.innerHTML = buildDiskLayoutInfo(diskLayoutInfo);
+        let resultSet = buildDiskLayoutInfo(diskLayoutInfo);
+        resultSet += buildDrivesInfo(drives);
+        mainContent.innerHTML = resultSet;
         
         const canvas = document.querySelector('#chart').getContext('2d');
         const total = Number((diskLayoutInfo[0].size / (Math.pow(10, 9))).toFixed(2));
@@ -317,5 +332,3 @@ async function viewNetworkInfo() {
 }
 
 viewSystemInfo();
-
-console.log(navigator.connection);
