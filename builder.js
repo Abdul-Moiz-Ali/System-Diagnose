@@ -1,5 +1,6 @@
 
-function buildSystemInfo(sysInfo, baseboardInfo, batteryInfoContent, biosInfo, chassisInfo) {
+
+module.exports.buildSystemInfo = (sysInfo, baseboardInfo, batteryInfoContent, biosInfo, chassisInfo) => {
 
     const displayOutput = `
         <div class="row">
@@ -50,7 +51,7 @@ function buildSystemInfo(sysInfo, baseboardInfo, batteryInfoContent, biosInfo, c
     return displayOutput;
 }
 
-function buildCPUInfo(cpuInfo, speedInfo, speedOutput, cpuFlagsOutput) {
+module.exports.buildCPUInfo = (cpuInfo, speedInfo, speedOutput, cpuFlagsOutput) => {
 
     const displayOutput = `
         <div class="row">
@@ -101,7 +102,7 @@ function buildCPUInfo(cpuInfo, speedInfo, speedOutput, cpuFlagsOutput) {
     return displayOutput;
 }
 
-function buildMemoryInfo(memoryInfo, layoutInfo) {
+module.exports.buildMemoryInfo = (memoryInfo, layoutInfo) => {
 
     const displayOutput = `
         <div class="row">
@@ -129,7 +130,7 @@ function buildMemoryInfo(memoryInfo, layoutInfo) {
     return displayOutput;
 }
 
-function buildGraphicsInfo(displays, screenSize, controllers) {
+module.exports.buildGraphicsInfo = (displays, screenSize, controllers) => {
 
     const displayOutput = `
         <div class="row">
@@ -163,7 +164,7 @@ function buildGraphicsInfo(displays, screenSize, controllers) {
     return displayOutput;
 }
 
-function buildOSInfo(osInfo, uuid, userInfo, packagesInfo) {
+module.exports.buildOSInfo = (osInfo, uuid, userInfo, packagesInfo) => {
 
     const displayOutput = `
         <div class="row">
@@ -208,7 +209,7 @@ function buildOSInfo(osInfo, uuid, userInfo, packagesInfo) {
     return displayOutput;
 }
 
-function buildDiskLayoutInfo(diskLayoutInfo) {
+module.exports.buildDiskLayoutInfo = (diskLayoutInfo) => {
 
     const rows = diskLayoutInfo.map(disk => {
         return `
@@ -217,7 +218,7 @@ function buildDiskLayoutInfo(diskLayoutInfo) {
             <td class="_table-td">${disk.type?disk.type:'N/A'}</td>
             <td class="_table-td">${disk.name?disk.name:'N/A'}</td>
             <td class="_table-td">${disk.vendor?disk.vendor:'N/A'}</td>
-            <td class="_table-td">${disk.size?`${(disk.size / Math.pow(2, 30)).toFixed(2)} GB`:'N/A'}</td>
+            <td class="_table-td">${disk.size?`${(disk.size / Math.pow(10, 9)).toFixed(2)} GB`:'N/A'}</td>
             <td class="_table-td">${disk.bytesPerSector?disk.bytesPerSector:'N/A'}</td>
             <td class="_table-td">${disk.totalCylinders?disk.totalCylinders:'N/A'}</td>
             <td class="_table-td">${disk.totalHeads?disk.totalHeads:'N/A'}</td>
@@ -237,7 +238,7 @@ function buildDiskLayoutInfo(diskLayoutInfo) {
     <div class="row">
         <div class="col l12 m12 s12 animate__animated animate__fadeIn">
             <div class="_table-container">
-                <table class="_centered responsive-table">
+                <table class="table-responsive">
                     <div class="_table-header-container"><span class="_collection-header-text">Disk(s)</span><span class="_table-header-icon"><i class="small material-icons">album</i></span></div>
                     <thead>
                         <tr>
@@ -263,6 +264,9 @@ function buildDiskLayoutInfo(diskLayoutInfo) {
                         ${rows}
                     </tbod>
                 </table>
+                <div class="_canvas-container container">
+                    <canvas id="chart"></canvas>
+                </div>
             </div>
         </div>
     </div>
@@ -271,9 +275,45 @@ function buildDiskLayoutInfo(diskLayoutInfo) {
     return displayOutput;
 }
 
-module.exports.buildSystemInfo = buildSystemInfo;
-module.exports.buildCPUInfo = buildCPUInfo;
-module.exports.buildMemoryInfo = buildMemoryInfo;
-module.exports.buildGraphicsInfo = buildGraphicsInfo;
-module.exports.buildOSInfo = buildOSInfo;
-module.exports.buildDiskLayoutInfo = buildDiskLayoutInfo;
+module.exports.buildStorageChart = (canvas, total, used, free) => {
+
+    const { Chart } = require('./node_modules/chart.js/dist/Chart');
+    
+    const chart = new Chart(canvas, {
+        type: 'doughnut',
+            data: {
+                datasets: [{
+                    data: [used, free],
+                    backgroundColor: ['#80cbc4', '#e0e0e0'],
+                    borderWidth: 0,
+                }],
+                labels: [
+                    'Used Space GB',
+                    'Free  Space GB'
+                ],
+            },
+            options: {
+                legend: {
+                    labels: {
+                        fontColor: '#90a4ae',
+                        fontSize: 14,
+                        padding: 12,
+                        fontStyle: 'bold'
+                    },
+                    position: 'right'
+                },
+                title: {
+                    display: true,
+                    position: 'top',
+                    fontColor: '#90a4ae',
+                    fontSize: 14,
+                    padding: 16,
+                    text: `Total Disk Space: ${total} GB`
+                },
+                cutoutPercentage: 0,
+                animation: {
+                    animateScale: true
+                }
+            }
+    });
+}

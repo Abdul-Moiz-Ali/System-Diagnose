@@ -4,7 +4,8 @@ const {
 
     buildSystemInfo, buildCPUInfo, buildMemoryInfo, buildGraphicsInfo,
     buildOSInfo,
-    buildDiskLayoutInfo
+    buildDiskLayoutInfo,
+    buildStorageChart
 
 } = require('./builder');
 const si = require('systeminformation');
@@ -242,6 +243,16 @@ async function viewDiskInfo() {
     setTimeout(() => {
 
         mainContent.innerHTML = buildDiskLayoutInfo(diskLayoutInfo);
+        
+        const canvas = document.querySelector('#chart').getContext('2d');
+        const total = Number((diskLayoutInfo[0].size / (Math.pow(10, 9))).toFixed(2));
+        let used = fsInfo.map(fs => {
+            return fs.size?fs.size:0;
+        }).reduce((a, b) => a + b, 0);
+        used = Number((used / (Math.pow(10, 9))).toFixed(2));
+        const free = total - used;
+
+        buildStorageChart(canvas, total, used, free);
 
     }, timeoutDelay);
 
@@ -303,5 +314,3 @@ async function viewNetworkInfo() {
 }
 
 viewSystemInfo();
-
-si.diskLayout().then(data => console.log(data));
