@@ -4,48 +4,48 @@ module.exports.buildSystemInfo = (sysInfo, baseboardInfo, batteryInfoContent, bi
 
     const displayOutput = `
         <div class="row">
-                <div class="col l6 m12 s12 animate__animated animate__fadeIn">
-                    <ul class="collection with-header">
-                        <li class="collection-header"><span class="_collection-header-text">System</span><span class="_collection-header-icon"><i class="small material-icons">settings</i></span></li>
-                        <li class="collection-item"><div class="_collection-item-text">Manufacturer<a class="secondary-content">${sysInfo.manufacturer ? sysInfo.manufacturer : 'N/A'}</a></div></li>
-                        <li class="collection-item"><div class="_collection-item-text">Model<a class="secondary-content">${sysInfo.model ? sysInfo.model : 'N/A'}</a></div></li>
-                        <li class="collection-item"><div class="_collection-item-text">Version<a class="secondary-content">${sysInfo.version ? sysInfo.version : 'N/A'}</a></div></li>
-                        <li class="collection-item"><div class="_collection-item-text">Serial<a class="secondary-content">${sysInfo.serial ? sysInfo.serial : 'N/A'}</a></div></li>
-                        <li class="collection-item"><div class="_collection-item-text">UUID<a class="secondary-content">${sysInfo.uuid ? sysInfo.uuid : 'N/A'}</a></div></li>
-                        <li class="collection-item"><div class="_collection-item-text">SKU<a class="secondary-content">${sysInfo.sku ? sysInfo.sku : 'N/A'}</a></div></li>
-                    </ul>
-                    <ul class="collection with-header">
-                        <li class="collection-header"><span class="_collection-header-text">Baseboard</span><span class="_collection-header-icon"><i class="small material-icons">developer_board</i></span></li>
-                        <li class="collection-item"><div class="_collection-item-text">Manufacturer<a class="secondary-content">${baseboardInfo.manufacturer ? baseboardInfo.manufacturer : 'N/A'}</a></div></li>
-                        <li class="collection-item"><div class="_collection-item-text">Model<a class="secondary-content">${baseboardInfo.model ? baseboardInfo.model : 'N/A'}</a></div></li>
-                        <li class="collection-item"><div class="_collection-item-text">Version<a class="secondary-content">${baseboardInfo.version ? baseboardInfo.version : 'N/A'}</a></div></li>
-                        <li class="collection-item"><div class="_collection-item-text">Serial<a class="secondary-content">${baseboardInfo.serial ? baseboardInfo.serial : 'N/A'}</a></div></li>
-                        <li class="collection-item"><div class="_collection-item-text">Asset Tag<a class="secondary-content">${baseboardInfo.assetTag ? baseboardInfo.assetTag : 'N/A'}</a></div></li>
-                    </ul>
-                </div>
-                <div class="col l6 m12 s12 animate__animated animate__fadeIn">
-                    <div id="battery-content">
-                        ${batteryInfoContent}
-                    </div>
-                    <ul class="collection with-header">
-                        <li class="collection-header"><span class="_collection-header-text">Bios</span><span class="_collection-header-icon"><i class="small material-icons">ac_unit</i></span></li>
-                        <li class="collection-item"><div class="_collection-item-text">Vendor<a class="secondary-content">${biosInfo.vendor ? biosInfo.vendor : 'N/A'}</a></div></li>
-                        <li class="collection-item"><div class="_collection-item-text">Version<a class="secondary-content">${biosInfo.version ? biosInfo.version : 'N/A'}</a></div></li>
-                        <li class="collection-item"><div class="_collection-item-text">Release Date<a class="secondary-content">${biosInfo.releaseDate ? biosInfo.releaseDate : 'N/A'}</a></div></li>
-                        <li class="collection-item"><div class="_collection-item-text">Revision<a class="secondary-content">${biosInfo.revision ? biosInfo.revision : 'N/A'}</a></div></li>
-                    </ul>
-                    <ul class="collection with-header">
-                        <li class="collection-header"><span class="_collection-header-text">Chassis</span><span class="_collection-header-icon"><i class="small material-icons">filter_frames</i></span></li>
-                        <li class="collection-item"><div class="_collection-item-text">Manufacturer<a class="secondary-content">${chassisInfo.manufacturer ? chassisInfo.manufacturer : 'N/A'}</a></div></li>
-                        <li class="collection-item"><div class="_collection-item-text">Model<a class="secondary-content">${chassisInfo.model ? chassisInfo.model : 'N/A'}</a></div></li>
-                        <li class="collection-item"><div class="_collection-item-text">Type<a class="secondary-content">${chassisInfo.type ? chassisInfo.type : 'N/A'}</a></div></li>
-                        <li class="collection-item"><div class="_collection-item-text">Version<a class="secondary-content">${chassisInfo.version ? chassisInfo.version : 'N/A'}</a></div></li>
-                        <li class="collection-item"><div class="_collection-item-text">Serial<a class="secondary-content">${chassisInfo.serial ? chassisInfo.serial : 'N/A'}</a></div></li>
-                        <li class="collection-item"><div class="_collection-item-text">Asset Tag<a class="secondary-content">${chassisInfo.assetTag ? chassisInfo.assetTag : 'N/A'}</a></div></li>
-                        <li class="collection-item"><div class="_collection-item-text">SKU<a class="secondary-content">${chassisInfo.sku ? chassisInfo.sku : 'N/A'}</a></div></li>
-                    </ul>
-                </div>
+            <div class="col l6 m12 s12 animate__animated animate__fadeIn">
+                <ul class="collection with-header">
+                    <li class="collection-header"><span class="_collection-header-text">System</span><span class="_collection-header-icon"><i class="small material-icons">settings</i></span></li>
+                    <li class="collection-item"><div class="_collection-item-text">Manufacturer<a class="secondary-content">${sysInfo.manufacturer ? sysInfo.manufacturer : 'N/A'}</a></div></li>
+                    <li class="collection-item"><div class="_collection-item-text">Model<a class="secondary-content">${sysInfo.model ? sysInfo.model : 'N/A'}</a></div></li>
+                    <li class="collection-item"><div class="_collection-item-text">Version<a class="secondary-content">${sysInfo.version ? sysInfo.version : 'N/A'}</a></div></li>
+                    <li class="collection-item"><div class="_collection-item-text">Serial<a class="secondary-content">${sysInfo.serial ? sysInfo.serial : 'N/A'}</a></div></li>
+                    <li class="collection-item"><div class="_collection-item-text">UUID<a class="secondary-content">${sysInfo.uuid ? sysInfo.uuid : 'N/A'}</a></div></li>
+                    <li class="collection-item"><div class="_collection-item-text">SKU<a class="secondary-content">${sysInfo.sku ? sysInfo.sku : 'N/A'}</a></div></li>
+                </ul>
+                <ul class="collection with-header">
+                    <li class="collection-header"><span class="_collection-header-text">Baseboard</span><span class="_collection-header-icon"><i class="small material-icons">developer_board</i></span></li>
+                    <li class="collection-item"><div class="_collection-item-text">Manufacturer<a class="secondary-content">${baseboardInfo.manufacturer ? baseboardInfo.manufacturer : 'N/A'}</a></div></li>
+                    <li class="collection-item"><div class="_collection-item-text">Model<a class="secondary-content">${baseboardInfo.model ? baseboardInfo.model : 'N/A'}</a></div></li>
+                    <li class="collection-item"><div class="_collection-item-text">Version<a class="secondary-content">${baseboardInfo.version ? baseboardInfo.version : 'N/A'}</a></div></li>
+                    <li class="collection-item"><div class="_collection-item-text">Serial<a class="secondary-content">${baseboardInfo.serial ? baseboardInfo.serial : 'N/A'}</a></div></li>
+                    <li class="collection-item"><div class="_collection-item-text">Asset Tag<a class="secondary-content">${baseboardInfo.assetTag ? baseboardInfo.assetTag : 'N/A'}</a></div></li>
+                </ul>
             </div>
+            <div class="col l6 m12 s12 animate__animated animate__fadeIn">
+                <div id="battery-content">
+                    ${batteryInfoContent}
+                </div>
+                <ul class="collection with-header">
+                    <li class="collection-header"><span class="_collection-header-text">Bios</span><span class="_collection-header-icon"><i class="small material-icons">ac_unit</i></span></li>
+                    <li class="collection-item"><div class="_collection-item-text">Vendor<a class="secondary-content">${biosInfo.vendor ? biosInfo.vendor : 'N/A'}</a></div></li>
+                    <li class="collection-item"><div class="_collection-item-text">Version<a class="secondary-content">${biosInfo.version ? biosInfo.version : 'N/A'}</a></div></li>
+                    <li class="collection-item"><div class="_collection-item-text">Release Date<a class="secondary-content">${biosInfo.releaseDate ? biosInfo.releaseDate : 'N/A'}</a></div></li>
+                    <li class="collection-item"><div class="_collection-item-text">Revision<a class="secondary-content">${biosInfo.revision ? biosInfo.revision : 'N/A'}</a></div></li>
+                </ul>
+                <ul class="collection with-header">
+                    <li class="collection-header"><span class="_collection-header-text">Chassis</span><span class="_collection-header-icon"><i class="small material-icons">filter_frames</i></span></li>
+                    <li class="collection-item"><div class="_collection-item-text">Manufacturer<a class="secondary-content">${chassisInfo.manufacturer ? chassisInfo.manufacturer : 'N/A'}</a></div></li>
+                    <li class="collection-item"><div class="_collection-item-text">Model<a class="secondary-content">${chassisInfo.model ? chassisInfo.model : 'N/A'}</a></div></li>
+                    <li class="collection-item"><div class="_collection-item-text">Type<a class="secondary-content">${chassisInfo.type ? chassisInfo.type : 'N/A'}</a></div></li>
+                    <li class="collection-item"><div class="_collection-item-text">Version<a class="secondary-content">${chassisInfo.version ? chassisInfo.version : 'N/A'}</a></div></li>
+                    <li class="collection-item"><div class="_collection-item-text">Serial<a class="secondary-content">${chassisInfo.serial ? chassisInfo.serial : 'N/A'}</a></div></li>
+                    <li class="collection-item"><div class="_collection-item-text">Asset Tag<a class="secondary-content">${chassisInfo.assetTag ? chassisInfo.assetTag : 'N/A'}</a></div></li>
+                    <li class="collection-item"><div class="_collection-item-text">SKU<a class="secondary-content">${chassisInfo.sku ? chassisInfo.sku : 'N/A'}</a></div></li>
+                </ul>
+            </div>
+        </div>
         `;
 
     return displayOutput;
@@ -166,11 +166,19 @@ module.exports.buildGraphicsInfo = (displays, screenSize, controllers) => {
 
 module.exports.buildOSInfo = (osInfo, uuid, userInfo, packagesInfo) => {
 
+    let iconName = '';
+    if(osInfo.platform === 'win32')
+        iconName = 'logo-windows';
+    else if(osInfo.platform === 'darwin')
+        iconName = 'logo-apple'
+    else
+        iconName = 'logo-tux';
+
     const displayOutput = `
         <div class="row">
             <div class="col l6 m12 s12 animate__animated animate__fadeIn">
                 <ul class="collection with-header">
-                    <li class="collection-header"><span class="_collection-header-text">OS</span><span class="_collection-header-icon"><i class="small material-icons">data_usage</i></span></li>
+                    <li class="collection-header"><span class="_collection-header-text">OS</span><span class="_collection-header-icon"><ion-icon name="${iconName}"></ion-icon></span></li>
                     <li class="collection-item"><div class="_collection-item-text">Platform<a class="secondary-content">${osInfo.platform ? osInfo.platform : 'N/A'}</a></div></li>
                     <li class="collection-item"><div class="_collection-item-text">Distribution<a class="secondary-content">${osInfo.distro ? osInfo.distro : 'N/A'}</a></div></li>               
                     <li class="collection-item"><div class="_collection-item-text">Release<a class="secondary-content">${osInfo.release ? osInfo.release : 'N/A'}</a></div></li>
@@ -239,7 +247,7 @@ module.exports.buildDiskLayoutInfo = (diskLayoutInfo) => {
         <div class="col l12 m12 s12 animate__animated animate__fadeIn">
             <div class="_table-container">
                 <table class="table-responsive">
-                    <div class="_table-header-container"><span class="_collection-header-text">Disk(s)</span><span class="_table-header-icon"><i class="small material-icons">album</i></span></div>
+                    <div class="_table-header-container"><span class="_collection-header-text">Disk(s)</span><span class="_table-header-icon"><ion-icon src="${'./hard-drive.svg'}"></ion-icon></span></div>
                     <thead>
                         <tr>
                             <td class="_collection-item-text">Device</td>
@@ -278,7 +286,7 @@ module.exports.buildDiskLayoutInfo = (diskLayoutInfo) => {
 module.exports.buildStorageChart = (canvas, total, used, free) => {
 
     const { Chart } = require('./node_modules/chart.js/dist/Chart');
-    
+
     const chart = new Chart(canvas, {
         type: 'doughnut',
             data: {
@@ -288,8 +296,8 @@ module.exports.buildStorageChart = (canvas, total, used, free) => {
                     borderWidth: 0,
                 }],
                 labels: [
-                    'Used Space GB',
-                    'Free  Space GB'
+                    `Used Space: ${used} GB`,
+                    `Free  Space: ${free} GB`
                 ],
             },
             options: {
@@ -313,6 +321,13 @@ module.exports.buildStorageChart = (canvas, total, used, free) => {
                 cutoutPercentage: 0,
                 animation: {
                     animateScale: true
+                },
+                tooltips: {
+                    callbacks: {
+                        label: (item) => {
+                            return item.index ? `Free Space: ${free} GB` : `Used Space: ${used} GB`
+                        }
+                    }
                 }
             }
     });

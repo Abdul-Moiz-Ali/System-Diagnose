@@ -48,6 +48,7 @@ body {
 
     margin-left: 1%;
     color: #78909c;
+    font-size: 32px;
 }
 
 ._collection-item-text {
@@ -139,6 +140,7 @@ body {
 
     margin-left: .5%;
     color: #78909c;
+    font-size: 32px;
 }
 
 ._table-td {

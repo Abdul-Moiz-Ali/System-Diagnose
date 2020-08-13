@@ -240,6 +240,9 @@ async function viewDiskInfo() {
     const partitionInfo = await si.blockDevices();
     const fsInfo = await si.fsSize();
 
+    console.log(partitionInfo);
+    console.log(fsInfo);
+
     setTimeout(() => {
 
         mainContent.innerHTML = buildDiskLayoutInfo(diskLayoutInfo);
@@ -314,3 +317,5 @@ async function viewNetworkInfo() {
 }
 
 viewSystemInfo();
+
+console.log(navigator.connection);
