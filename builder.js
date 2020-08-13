@@ -247,7 +247,7 @@ module.exports.buildDiskLayoutInfo = (diskLayoutInfo) => {
         <div class="col l12 m12 s12 animate__animated animate__fadeIn">
             <div class="_table-container">
                 <table class="table-responsive">
-                    <div class="_table-header-container"><span class="_collection-header-text">Disk(s)</span><span class="_table-header-icon"><ion-icon src="${'./hard-drive.svg'}"></ion-icon></span></div>
+                    <div class="_table-header-container"><span class="_collection-header-text">Hard Drive(s)</span><span class="_table-header-icon"><ion-icon src="${'./icons/hard-drive.svg'}"></ion-icon></span></div>
                     <thead>
                         <tr>
                             <td class="_collection-item-text">Device</td>
