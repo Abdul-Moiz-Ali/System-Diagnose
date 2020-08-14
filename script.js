@@ -1,8 +1,12 @@
+const {
+    app
+} = require('electron').remote;
+const {
 
-const { app } = require('electron').remote;
-const { 
-
-    buildSystemInfo, buildCPUInfo, buildMemoryInfo, buildGraphicsInfo,
+    buildSystemInfo,
+    buildCPUInfo,
+    buildMemoryInfo,
+    buildGraphicsInfo,
     buildOSInfo,
     buildDiskLayoutInfo,
     buildDrivesInfo
@@ -25,13 +29,13 @@ const sidenav = M.Sidenav.init(document.querySelector('.sidenav'), {
 
         sidenavLinks.forEach(link => {
 
-            link.classList.add('animate__animated', 'animate__fadeInLeft');;
+            link.classList.add('animate__animated', 'animate__fadeInLeft');
         });
     },
     onCloseStart: () => {
 
         sidenavLinks.forEach(link => {
-            
+
             link.classList.remove('animate__animated', 'animate__fadeInLeft');;
         });
     }
@@ -77,7 +81,7 @@ const timeoutDelay = 0;
 function bindClickEventToLinks(links, callback) {
 
     links.forEach(link => {
-        
+
         link.addEventListener('click', callback);
     });
 }
@@ -86,8 +90,7 @@ function initializePageView(link) {
 
     try {
         storageChart.destroy();
-    } catch (error) {
-    }
+    } catch (error) {}
 
     for (let i = 0; i < 2; i++) {
 
@@ -101,7 +104,7 @@ function initializePageView(link) {
     clearInterval(batteryIntervalFlag);
     mainContent.innerHTML = loader;
 
-    if(sidenav.isOpen)
+    if (sidenav.isOpen)
         sidenav.close();
 }
 
@@ -110,16 +113,16 @@ async function getBatteryInfo() {
     const batteryInfo = await si.battery();
 
     let batteryInfoContent = '';
-    if(batteryInfo.hasbattery) {
+    if (batteryInfo.hasbattery) {
 
         const batteryChargingIndicator = batteryInfo.acconnected ? '<span class="_battery-charging-indicator"><i class="material-icons">power</i></span>' : '';
 
         let batteryStatus;
-        if(batteryInfo.acconnected && batteryInfo.percent === 100)
+        if (batteryInfo.acconnected && batteryInfo.percent === 100)
             batteryStatus = 'Plugged in, Fully Charged';
-        else if(batteryInfo.acconnected && !batteryInfo.ischarging)
+        else if (batteryInfo.acconnected && !batteryInfo.ischarging)
             batteryStatus = 'Plugged in, Not Charging';
-        else if(batteryInfo.ischarging)
+        else if (batteryInfo.ischarging)
             batteryStatus = 'Plugged in, Charging';
         else {
 
@@ -127,11 +130,11 @@ async function getBatteryInfo() {
             const remainingHours = Math.floor(batteryManager.dischargingTime / 3600);
             const remainingMinutes = Math.floor(((batteryManager.dischargingTime / 3600) - Math.floor(remainingHours)) * 60);
 
-            if(remainingHours && remainingMinutes && remainingHours !== Infinity && remainingMinutes !== Infinity)
+            if (remainingHours && remainingMinutes && remainingHours !== Infinity && remainingMinutes !== Infinity)
                 batteryStatus = `${remainingHours} hr ${remainingMinutes} min remaining`;
-            else if(remainingHours && remainingHours != Infinity)
+            else if (remainingHours && remainingHours != Infinity)
                 batteryStatus = `${remainingHours} hr remaining`;
-            else if(remainingMinutes && remainingMinutes != Infinity)
+            else if (remainingMinutes && remainingMinutes != Infinity)
                 batteryStatus = `${remainingMinutes} min remaining`;
             else
                 batteryStatus = '...';
@@ -162,7 +165,7 @@ async function updateBatteryInfo() {
         const batteryInfoContent = await getBatteryInfo();
         document.querySelector('#battery-content').innerHTML = batteryInfoContent;
     } catch (error) {
-        
+
     }
 }
 
@@ -175,12 +178,12 @@ async function viewSystemInfo() {
     const baseboardInfo = await si.baseboard();
     const chassisInfo = await si.chassis();
     const batteryInfoContent = await getBatteryInfo();
-    
+
     setTimeout(() => {
 
         mainContent.innerHTML = buildSystemInfo(sysInfo, baseboardInfo, batteryInfoContent, biosInfo, chassisInfo);
 
-        if(batteryInfoContent)
+        if (batteryInfoContent)
             batteryIntervalFlag = setInterval(updateBatteryInfo, 1000);
 
     }, timeoutDelay);
@@ -219,7 +222,13 @@ async function viewCPUInfo() {
 async function updatememoryInfo(chart) {
 
     try {
-        const { total, free, used, swapfree, swapused } = await si.mem();
+        const {
+            total,
+            free,
+            used,
+            swapfree,
+            swapused
+        } = await si.mem();
 
         const usagePercentage = (Math.ceil((used / (total / 100)))).toFixed(2);
 
@@ -393,11 +402,11 @@ async function viewDiskInfo() {
         let resultSet = buildDiskLayoutInfo(diskLayoutInfo);
         resultSet += buildDrivesInfo(drives);
         mainContent.innerHTML = resultSet;
-        
+
         const canvas = document.querySelector('#chart').getContext('2d');
         const total = Number((diskLayoutInfo[0].size / (Math.pow(10, 9))).toFixed(2));
         let used = fsInfo.map(fs => {
-            return fs.size?fs.size:0;
+            return fs.size ? fs.size : 0;
         }).reduce((a, b) => a + b, 0);
         used = Number((used / (Math.pow(10, 9))).toFixed(2));
         const free = total - used;
@@ -412,7 +421,10 @@ async function viewGraphicsInfo() {
     initializePageView(graphicsLinks);
 
     const graphicsInfo = await si.graphics();
-    const { displays, controllers } = graphicsInfo;
+    const {
+        displays,
+        controllers
+    } = graphicsInfo;
 
     const screenSize = `(${displays[0].sizex}cm x ${displays[0].sizey}cm) ${Math.ceil((Math.sqrt((Math.pow(displays[0].sizex, 2)) + (Math.pow(displays[0].sizey, 2))))  / 2.54)}”`;
 
@@ -435,16 +447,16 @@ async function viewOsInfo() {
 
     let packagesInfo = '';
 
-    for(const package in packages) {
+    for (const package in packages) {
 
-        if(packages[package]) {
+        if (packages[package]) {
 
             packagesInfo += `
             <li class="collection-item"><div class="_collection-item-text">${package}<a class="secondary-content">${packages[package]}</a></div></li>
             `;
         }
     }
-    
+
     setTimeout(() => {
 
         mainContent.innerHTML = buildOSInfo(osInfo, uuid, userInfo, packagesInfo);
