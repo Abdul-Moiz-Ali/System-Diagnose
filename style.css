@@ -232,3 +232,11 @@ body {
 ._free-storage-text {
     float: right;
 }
+
+._graph-container {
+
+    background-color: white;
+    padding: 2%;
+    margin-top: .9%;
+    border: .5px solid #e0e0e0;
+}

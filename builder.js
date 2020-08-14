@@ -106,7 +106,7 @@ module.exports.buildMemoryInfo = (memoryInfo, layoutInfo) => {
 
     const displayOutput = `
         <div class="row">
-            <div class="col l6 m12 s12 animate__animated animate__fadeIn">
+            <div class="col l5 m12 s12 animate__animated animate__fadeIn">
                 <ul class="collection with-header">
                     <li class="collection-header"><span class="_collection-header-text">Memory</span><span class="_collection-header-icon"><i class="small material-icons">layers</i></span></li>
                     <li class="collection-item"><div class="_collection-item-text">Total<a class="secondary-content">${memoryInfo.total ? `${(Math.floor(memoryInfo.total / (Math.pow(10, 9)))).toFixed(2)} GB` : 'N/A'}</a></div></li>
@@ -123,6 +123,12 @@ module.exports.buildMemoryInfo = (memoryInfo, layoutInfo) => {
                     <li class="collection-item"><div class="_collection-item-text">Part No<a class="secondary-content">${layoutInfo.partNum ? layoutInfo.partNum : 'N/A'}</a></div></li>
                     <li class="collection-item"><div class="_collection-item-text">Serial No<a class="secondary-content">${layoutInfo.serialNum ? layoutInfo.serialNum : 'N/A'}</a></div></li>
                 </ul>
+            </div>
+            <div class="col l7 m12 s12 animate__animated animate__fadeIn">
+                <div class="_graph-container">
+                    <canvas id="mem-graph">
+                    </canvas>
+                </div>
             </div>
         </div>
         `;
@@ -363,7 +369,7 @@ module.exports.buildDiskLayoutInfo = (diskLayoutInfo) => {
 
 module.exports.buildStorageChart = (canvas, total, used, free) => {
 
-    const { Chart } = require('./node_modules/chart.js/dist/Chart');
+    const { Chart } = require('./node_modules/chart.js/dist/Chart.min');
 
     const chart = new Chart(canvas, {
         type: 'doughnut',

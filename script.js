@@ -152,8 +152,12 @@ async function getBatteryInfo() {
 
 async function updateBatteryInfo() {
 
-    const batteryInfoContent = await getBatteryInfo();
-    document.querySelector('#battery-content').innerHTML = batteryInfoContent;
+    try {
+        const batteryInfoContent = await getBatteryInfo();
+        document.querySelector('#battery-content').innerHTML = batteryInfoContent;
+    } catch (error) {
+        
+    }
 }
 
 async function viewSystemInfo() {
@@ -206,14 +210,88 @@ async function viewCPUInfo() {
     }, timeoutDelay);
 }
 
-async function updatememoryInfo() {
+async function updatememoryInfo(chart) {
 
-    const { free, used, swapfree, swapused } = await si.mem();
+    try {
+        const { total, free, used, swapfree, swapused } = await si.mem();
 
-    document.querySelector('#used-mem').textContent = `${used ? `${(used / (Math.pow(2, 30))).toFixed(2)} GB` : 'N/A'}`;
-    document.querySelector('#free-mem').textContent = `${free ? `${(free / (Math.pow(2, 30))).toFixed(2)} GB` : 'N/A'}`;
-    document.querySelector('#used-vm').textContent = `${swapused ? `${(swapused / (Math.pow(2, 30))).toFixed(2)} GB` : 'N/A'}`;
-    document.querySelector('#free-vm').textContent = `${swapfree ? `${(swapfree / (Math.pow(2, 30))).toFixed(2)} GB` : 'N/A'}`;
+        const usagePercentage = (Math.ceil((used / (total / 100)))).toFixed(2);
+
+        chart.config.data.datasets[0].data.push({
+            x: Date.now(),
+            y: usagePercentage
+        });
+
+        chart.update();
+
+        document.querySelector('#used-mem').textContent = `${used ? `${(used / (Math.pow(2, 30))).toFixed(2)} GB` : 'N/A'}`;
+        document.querySelector('#free-mem').textContent = `${free ? `${(free / (Math.pow(2, 30))).toFixed(2)} GB` : 'N/A'}`;
+        document.querySelector('#used-vm').textContent = `${swapused ? `${(swapused / (Math.pow(2, 30))).toFixed(2)} GB` : 'N/A'}`;
+        document.querySelector('#free-vm').textContent = `${swapfree ? `${(swapfree / (Math.pow(2, 30))).toFixed(2)} GB` : 'N/A'}`;
+    } catch (error) {
+        chart.destroy();
+    }
+}
+
+function buildMemoryGraph(canvas) {
+
+    require('./node_modules/chart.js/dist/Chart.bundle.min');
+    require('./node_modules/chartjs-plugin-streaming/dist/chartjs-plugin-streaming.min');
+
+    const chart = new Chart(canvas, {
+        type: 'line',
+        data: {
+            datasets: [{
+                label: 'Memory usage',
+                borderColor: '#80cbc4',
+                backgroundColor: '#e0e0e0',
+                borderWidth: 5,
+                data: []
+            }]
+        },
+        options: {
+            legend: {
+                labels: {
+                    fontColor: '#90a4ae',
+                    fontSize: 14,
+                    padding: 12,
+                    fontStyle: 'bold'
+                }
+            },
+            title: {
+                display: true,
+                text: 'System Memory',
+                position: 'top',
+                fontColor: '#90a4ae',
+                fontSize: 14,
+                padding: 16
+            },
+            scales: {
+                xAxes: [{
+                    type: 'realtime',
+                    realtime: {
+                        duration: 20000,
+                        refresh: 1000,
+                        delay: 2000,
+                        onRefresh: updatememoryInfo
+                    }
+                }],
+                yAxes: [{
+                    ticks: {
+                        callback: (value) => value + '%'
+                    }
+                }]
+            },
+            tooltips: {
+                mode: 'nearest',
+                intersect: false
+            },
+            hover: {
+                mode: 'nearest',
+                intersect: false
+            }
+        }
+    });
 }
 
 async function viewMemoryInfo() {
@@ -227,8 +305,8 @@ async function viewMemoryInfo() {
     setTimeout(() => {
 
         mainContent.innerHTML = buildMemoryInfo(memoryInfo, layoutInfo);
-
-        memoryIntervalFlag = setInterval(updatememoryInfo, 1000);
+        const canvas = document.querySelector('#mem-graph').getContext('2d');
+        buildMemoryGraph(canvas);
 
     }, timeoutDelay);
 }
@@ -273,7 +351,6 @@ async function viewDiskInfo() {
         buildStorageChart(canvas, total, used, free);
 
     }, timeoutDelay);
-
 }
 
 async function viewGraphicsInfo() {
