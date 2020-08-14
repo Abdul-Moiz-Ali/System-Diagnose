@@ -9,7 +9,8 @@ const {
     buildGraphicsInfo,
     buildOSInfo,
     buildDiskLayoutInfo,
-    buildDrivesInfo
+    buildDrivesInfo,
+    buildNetworkInfo
 
 } = require('./builder');
 const si = require('systeminformation');
@@ -219,7 +220,7 @@ async function viewCPUInfo() {
     }, timeoutDelay);
 }
 
-async function updatememoryInfo(chart) {
+async function updatememoryGraph(graph) {
 
     try {
         const {
@@ -232,19 +233,19 @@ async function updatememoryInfo(chart) {
 
         const usagePercentage = (Math.ceil((used / (total / 100)))).toFixed(2);
 
-        chart.data.datasets[0].data.push({
+        graph.data.datasets[0].data.push({
             x: Date.now(),
             y: usagePercentage
         });
 
-        chart.update();
+        graph.update();
 
         document.querySelector('#used-mem').textContent = `${used ? `${(used / (Math.pow(2, 30))).toFixed(2)} GB` : 'N/A'}`;
         document.querySelector('#free-mem').textContent = `${free ? `${(free / (Math.pow(2, 30))).toFixed(2)} GB` : 'N/A'}`;
         document.querySelector('#used-vm').textContent = `${swapused ? `${(swapused / (Math.pow(2, 30))).toFixed(2)} GB` : 'N/A'}`;
         document.querySelector('#free-vm').textContent = `${swapfree ? `${(swapfree / (Math.pow(2, 30))).toFixed(2)} GB` : 'N/A'}`;
     } catch (error) {
-        chart.destroy();
+        graph.destroy();
     }
 }
 
@@ -288,7 +289,7 @@ function buildMemoryGraph(canvas) {
                         duration: 20000,
                         refresh: 1000,
                         delay: 1000,
-                        onRefresh: updatememoryInfo
+                        onRefresh: updatememoryGraph
                     }
                 }],
                 yAxes: [{
@@ -464,20 +465,117 @@ async function viewOsInfo() {
     }, timeoutDelay);
 }
 
-async function viewProcessessInfo() {
+async function updateNetworkGraph(graph) {
 
-    initializePageView(processesLinks);
+    try {
+        const networkStats = await si.networkStats();
+        graph.data.datasets[0].data.push({
+            x: Date.now(),
+            y: (networkStats[0].tx_sec / (Math.pow(2, 10))).toFixed(2)
+        });
+        graph.data.datasets[1].data.push({
+            x: Date.now(),
+            y: (networkStats[0].rx_sec / (Math.pow(2, 10))).toFixed(2)
+        });
+
+        graph.update();
+
+        document.querySelector('#bytes-tr').textContent = `${(networkStats[0].tx_bytes / (Math.pow(2, 20))).toFixed(2)} MB`
+        document.querySelector('#bytes-rx').textContent = `${(networkStats[0].rx_bytes / (Math.pow(2, 20))).toFixed(2)} MB`
+    } catch (error) {
+
+    }
+}
+
+function buildNetworkGraph(canvas) {
+
+    const memoryGraph = new Chart(canvas, {
+        type: 'line',
+        data: {
+            datasets: [{
+                    label: 'Transferred per second',
+                    borderColor: '#80cbc4',
+                    backgroundColor: 'rgb(219, 243, 242, 0.5)',
+                    borderWidth: 4,
+                    cubicInterpolationMode: 'monotone',
+                    lineTension: 0,
+                    pointRadius: 0,
+                    data: []
+                },
+                {
+                    label: 'Received per second',
+                    borderColor: '#ef9a9a',
+                    backgroundColor: 'rgb(255, 234, 237, .5)',
+                    borderWidth: 4,
+                    cubicInterpolationMode: 'monotone',
+                    lineTension: 0,
+                    pointRadius: 0,
+                    data: []
+                }
+            ]
+        },
+        options: {
+            legend: {
+                labels: {
+                    fontColor: '#90a4ae',
+                    fontSize: 14,
+                    padding: 12,
+                    fontStyle: 'bold'
+                }
+            },
+            title: {
+                display: true,
+                text: 'Throughput',
+                position: 'top',
+                fontColor: '#90a4ae',
+                fontSize: 14,
+                padding: 16
+            },
+            scales: {
+                xAxes: [{
+                    type: 'realtime',
+                    realtime: {
+                        duration: 20000,
+                        refresh: 1000,
+                        delay: 1000,
+                        onRefresh: updateNetworkGraph
+                    }
+                }],
+                yAxes: [{
+                    ticks: {
+                        callback: (value) => value + 'Kbps'
+                    }
+                }]
+            },
+            tooltips: {
+                mode: 'nearest',
+                intersect: false
+            },
+            hover: {
+                mode: 'nearest',
+                intersect: false
+            }
+        }
+    });
 }
 
 async function viewNetworkInfo() {
 
     initializePageView(networkLinks);
 
-    si.networkInterfaces().then(data => console.log(data));
-    si.networkInterfaceDefault().then(data => console.log(data));
-    si.networkGatewayDefault().then(data => console.log(data));
-    si.networkStats().then(data => console.log(data));
-    si.wifiNetworks().then(data => console.log(data));
+    const networkInterfaces = await si.networkInterfaces();
+    const defaultInterface = await si.networkInterfaceDefault();
+    const defaultGateway = await si.networkGatewayDefault();
+    const networkStats = await si.networkStats();
+
+    mainContent.innerHTML = buildNetworkInfo(networkInterfaces, defaultInterface, defaultGateway, networkStats[0]);
+    const canvas = document.querySelector('#net-graph').getContext('2d');
+    buildNetworkGraph(canvas);
+}
+
+async function viewProcessessInfo() {
+
+    initializePageView(processesLinks);
 }
 
 viewSystemInfo();

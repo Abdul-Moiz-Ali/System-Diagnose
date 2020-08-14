@@ -1,5 +1,3 @@
-
-
 module.exports.buildSystemInfo = (sysInfo, baseboardInfo, batteryInfoContent, biosInfo, chassisInfo) => {
 
     const displayOutput = `
@@ -98,7 +96,7 @@ module.exports.buildCPUInfo = (cpuInfo, speedInfo, speedOutput, cpuFlagsOutput) 
             </div>
         </div
         `;
-    
+
     return displayOutput;
 }
 
@@ -173,9 +171,9 @@ module.exports.buildGraphicsInfo = (displays, screenSize, controllers) => {
 module.exports.buildOSInfo = (osInfo, uuid, userInfo, packagesInfo) => {
 
     let iconName = '';
-    if(osInfo.platform === 'win32')
+    if (osInfo.platform === 'win32')
         iconName = 'logo-windows';
-    else if(osInfo.platform === 'darwin')
+    else if (osInfo.platform === 'darwin')
         iconName = 'logo-apple'
     else
         iconName = 'logo-tux';
@@ -227,7 +225,7 @@ function buildStorageProgress(drives) {
 
     let output = '';
     drives.forEach(drive => {
-        if(drive.size > 0) {
+        if (drive.size > 0) {
             output += `
             <div class="container">
                 <span class="_total-storage-text">Local Disk (${drive.localDisk}) - ${(drive.size / (Math.pow(2, 30))).toFixed(2)} GB</span>
@@ -360,6 +358,44 @@ module.exports.buildDiskLayoutInfo = (diskLayoutInfo) => {
                     <canvas id="chart"></canvas>
                 </div>
             </div>
+        </div>
+    </div>
+    `;
+
+    return displayOutput;
+}
+
+module.exports.buildNetworkInfo = (interfaces, defaultInterface, defaultGateway, networkStats) => {
+
+    const interface = (interfaces.filter(iface => iface.iface === defaultInterface))[0];
+
+    const displayOutput = `
+    <div class="row">
+        <div class="col l5 m12 s12 animate__animated animate__fadeIn">
+            <ul class="collection with-header">
+                <li class="collection-header"><span class="_collection-header-text">${defaultInterface}</span><span class="_collection-header-icon"><i class="small material-icons">${defaultInterface === 'Wi-Fi'?'wifi':'public'}</i></span></li>
+                <li class="collection-item"><div class="_collection-item-text">Interface Name<a class="secondary-content">${interface.ifaceName ? interface.ifaceName : 'N/A'}</a></div></li>
+                <li class="collection-item"><div class="_collection-item-text">Bytes Transferred<a id="bytes-tr" class="secondary-content">${networkStats.tx_bytes ? `${(networkStats.tx_bytes / (Math.pow(2, 20))).toFixed(2)} MB` : 'N/A'}</a></div></li>
+                <li class="collection-item"><div class="_collection-item-text">Bytes Received<a id="bytes-rx" class="secondary-content">${networkStats.rx_bytes ? `${(networkStats.rx_bytes / (Math.pow(2, 20))).toFixed(2)} MB` : 'N/A'}</a></div></li>
+                <li class="collection-item"><div class="_collection-item-text">IPv4<a class="secondary-content">${interface.ip4 ? interface.ip4 : 'N/A'}</a></div></li>
+                <li class="collection-item"><div class="_collection-item-text">IPv4 Subnet<a class="secondary-content">${interface.ip4subnet ? interface.ip4subnet : 'N/A'}</a></div></li>
+                <li class="collection-item"><div class="_collection-item-text">IPv6<a class="secondary-content">${interface.ip6 ? interface.ip6 : 'N/A'}</a></div></li>
+                <li class="collection-item"><div class="_collection-item-text">IPv6 Subnet<a class="secondary-content">${interface.ip6subnet ? interface.ip6subnet : 'N/A'}</a></div></li>
+                <li class="collection-item"><div class="_collection-item-text">Mac Address<a class="secondary-content">${interface.mac ? interface.mac : 'N/A'}</a></div></li>
+                <li class="collection-item"><div class="_collection-item-text">Internal<a class="secondary-content"><i class="material-icons">${interface.internal ? 'check_box' : 'cancel'}</i></a></div></li>
+                <li class="collection-item"><div class="_collection-item-text">Virtual<a class="secondary-content"><i class="material-icons">${interface.virtual ? 'check_box' : 'cancel'}</i></a></div></li>
+                <li class="collection-item"><div class="_collection-item-text">State<a class="secondary-content">${interface.operstate ? interface.operstate : 'N/A'}</a></div></li>
+                <li class="collection-item"><div class="_collection-item-text">Type<a class="secondary-content">${interface.type ? interface.type : 'N/A'}</a></div></li>
+                <li class="collection-item"><div class="_collection-item-text">Speed<a class="secondary-content">${interface.speed ? `${interface.speed} Mbit/s` : 'N/A'}</a></div></li>
+                <li class="collection-item"><div class="_collection-item-text">DHCP<a class="secondary-content"><i class="material-icons">${interface.dhcp === 'true' ? 'check_box' : 'cancel'}</i></a></div></li>
+                <li class="collection-item"><div class="_collection-item-text">Default Gateway<a class="secondary-content">${defaultGateway ? defaultGateway : 'N/A'}</a></div></li>
+            </ul>
+        </div>
+        <div class="col l7 m12 s12 animate__animated animate__fadeIn">
+        <div class="_graph-container">
+            <canvas id="net-graph">
+            </canvas>
+        </div>
         </div>
     </div>
     `;
