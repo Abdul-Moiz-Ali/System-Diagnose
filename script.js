@@ -5,11 +5,12 @@ const {
     buildSystemInfo, buildCPUInfo, buildMemoryInfo, buildGraphicsInfo,
     buildOSInfo,
     buildDiskLayoutInfo,
-    buildStorageChart,
     buildDrivesInfo
 
 } = require('./builder');
 const si = require('systeminformation');
+require('./node_modules/chart.js/dist/Chart.bundle.min');
+require('./node_modules/chartjs-plugin-streaming/dist/chartjs-plugin-streaming.min');
 
 const versionText = document.querySelector('#version-text')
 versionText.textContent = `Version ${app.getVersion()}`;
@@ -71,7 +72,7 @@ const mainContent = document.querySelector('#main-content');
 let currentActivateLink = systemLinks;
 let memoryIntervalFlag;
 let batteryIntervalFlag;
-const timeoutDelay = 100;
+const timeoutDelay = 0;
 
 function bindClickEventToLinks(links, callback) {
 
@@ -82,6 +83,11 @@ function bindClickEventToLinks(links, callback) {
 }
 
 function initializePageView(link) {
+
+    try {
+        storageChart.destroy();
+    } catch (error) {
+    }
 
     for (let i = 0; i < 2; i++) {
 
@@ -217,7 +223,7 @@ async function updatememoryInfo(chart) {
 
         const usagePercentage = (Math.ceil((used / (total / 100)))).toFixed(2);
 
-        chart.config.data.datasets[0].data.push({
+        chart.data.datasets[0].data.push({
             x: Date.now(),
             y: usagePercentage
         });
@@ -235,17 +241,17 @@ async function updatememoryInfo(chart) {
 
 function buildMemoryGraph(canvas) {
 
-    require('./node_modules/chart.js/dist/Chart.bundle.min');
-    require('./node_modules/chartjs-plugin-streaming/dist/chartjs-plugin-streaming.min');
-
-    const chart = new Chart(canvas, {
+    const memoryGraph = new Chart(canvas, {
         type: 'line',
         data: {
             datasets: [{
                 label: 'Memory usage',
                 borderColor: '#80cbc4',
-                backgroundColor: '#e0e0e0',
-                borderWidth: 5,
+                backgroundColor: 'rgb(219, 243, 242, 0.5)',
+                borderWidth: 4,
+                cubicInterpolationMode: 'monotone',
+                lineTension: 0,
+                pointRadius: 0,
                 data: []
             }]
         },
@@ -272,7 +278,7 @@ function buildMemoryGraph(canvas) {
                     realtime: {
                         duration: 20000,
                         refresh: 1000,
-                        delay: 2000,
+                        delay: 1000,
                         onRefresh: updatememoryInfo
                     }
                 }],
@@ -309,6 +315,54 @@ async function viewMemoryInfo() {
         buildMemoryGraph(canvas);
 
     }, timeoutDelay);
+}
+
+function buildStorageChart(canvas, total, used, free) {
+
+    var storageChart = new Chart(canvas, {
+        type: 'doughnut',
+        data: {
+            datasets: [{
+                data: [used, free],
+                backgroundColor: ['#80cbc4', '#e0e0e0'],
+                borderWidth: 0
+            }],
+            labels: [
+                `Used Space: ${used} GB`,
+                `Free  Space: ${free} GB`
+            ],
+        },
+        options: {
+            legend: {
+                labels: {
+                    fontColor: '#90a4ae',
+                    fontSize: 14,
+                    padding: 12,
+                    fontStyle: 'bold'
+                },
+                position: 'right'
+            },
+            title: {
+                display: true,
+                position: 'top',
+                fontColor: '#90a4ae',
+                fontSize: 14,
+                padding: 16,
+                text: `Total Disk Space: ${total} GB`
+            },
+            cutoutPercentage: 0,
+            animation: {
+                animateScale: true
+            },
+            tooltips: {
+                callbacks: {
+                    label: (item) => {
+                        return item.index ? `Free Space: ${free} GB` : `Used Space: ${used} GB`
+                    }
+                }
+            }
+        }
+    });
 }
 
 async function viewDiskInfo() {
