@@ -1,5 +1,9 @@
-
-const { app, BrowserWindow, Menu, screen } = require('electron');
+const {
+    app,
+    BrowserWindow,
+    Menu,
+    screen
+} = require('electron');
 const url = require('url');
 const path = require('path');
 
@@ -39,48 +43,74 @@ function createAppMenu() {
         {
             label: 'File',
             submenu: [
-                isMac ? { role: 'close' } : { role: 'quit' }
+                isMac ? {
+                    role: 'close'
+                } : {
+                    role: 'quit'
+                }
             ]
         },
         {
             label: 'View',
-            submenu: [
-                {role: 'toggledevtools'},
-                { type: 'separator' },
-                { role: 'resetzoom' },
-                { role: 'zoomin' },
-                { role: 'zoomout' },
-                { type: 'separator' },
-                { role: 'togglefullscreen' }
+            submenu: [{
+                    role: 'toggledevtools'
+                },
+                {
+                    type: 'separator'
+                },
+                {
+                    role: 'resetzoom'
+                },
+                {
+                    role: 'zoomin'
+                },
+                {
+                    role: 'zoomout'
+                },
+                {
+                    type: 'separator'
+                },
+                {
+                    role: 'togglefullscreen'
+                }
             ]
         },
         {
             label: 'Window',
-            submenu: [
-                { role: 'minimize' },
-                { role: 'zoom' },
-                ...(isMac ? [
-                        { type: 'separator' },
-                        { role: 'front' },
-                        { type: 'separator' },
-                        { role: 'window' }
-                    ] : [
-                        { role: 'close' }
-                    ]
-                )
+            submenu: [{
+                    role: 'minimize'
+                },
+                {
+                    role: 'zoom'
+                },
+                ...(isMac ? [{
+                        type: 'separator'
+                    },
+                    {
+                        role: 'front'
+                    },
+                    {
+                        type: 'separator'
+                    },
+                    {
+                        role: 'window'
+                    }
+                ] : [{
+                    role: 'close'
+                }])
             ]
         },
         {
             role: 'help',
-            submenu: [
-                {
-                    label: 'Learn More',
-                    click: async () => {
-                        const { shell } = require('electron')
-                        await shell.openExternal('https://electronjs.org')
-                    }
+            submenu: [{
+                label: 'Learn More',
+                click: async () => {
+                    const {
+                        shell
+                    } = require('electron')
+                    await shell.openExternal('https://github.com/Abdul-Moiz-Ali/Country-Information-App')
                 }
-            ]
+            }]
         }
     ]
 
@@ -91,13 +121,13 @@ function createAppMenu() {
 app.whenReady().then(createAppWindow);
 
 app.on('window-all-closed', () => {
-    
+
     if (process.platform !== 'darwin')
-      app.quit();
+        app.quit();
 });
-  
+
 app.on('activate', () => {
-    
+
     if (BrowserWindow.getAllWindows().length === 0)
         createWindow();
 });

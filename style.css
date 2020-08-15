@@ -81,10 +81,10 @@ body {
     border: 0px !important;
 }
 
-/* .collection li {
+.collection li {
 
     background-color: #fafafa !important;
-} */
+}
 
 .progress {
 
@@ -134,7 +134,7 @@ body {
 
 ._table-container {
 
-    background-color: white;
+    background-color: #fafafa;
     padding: 1%;
     margin-top: .5%;
     border: .5px solid #e0e0e0;
@@ -206,7 +206,7 @@ body {
 
 ._loader-container {
 
-    background-color: white;
+    background-color: #fafafa;
     border: .5px solid #e0e0e0;
     margin-top: .8%;
     padding-top: 6%;
@@ -236,7 +236,7 @@ body {
 
 ._graph-container {
 
-    background-color: white;
+    background-color: #fafafa;
     padding: 2%;
     margin-top: .9%;
     border: .5px solid #e0e0e0;
