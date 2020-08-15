@@ -178,6 +178,21 @@ module.exports.buildOSInfo = (osInfo, uuid, userInfo, packagesInfo) => {
     else
         iconName = 'logo-tux';
 
+    let uInfo = '';
+    if (userInfo.length) {
+        uInfo = `
+        <ul class="collection with-header">
+            <li class="collection-header"><span class="_collection-header-text">User</span><span class="_collection-header-icon"><i class="small material-icons">account_circle</i></span></li>
+            <li class="collection-item"><div class="_collection-item-text">User<a class="secondary-content">${userInfo[0].user ? userInfo[0].user : 'N/A'}</a></div></li>
+            <li class="collection-item"><div class="_collection-item-text">TTY<a class="secondary-content">${userInfo[0].tty ? userInfo[0].tty : 'N/A'}</a></div></li>
+            <li class="collection-item"><div class="_collection-item-text">Date<a class="secondary-content">${userInfo[0].date ? userInfo[0].date : 'N/A'}</a></div></li>
+            <li class="collection-item"><div class="_collection-item-text">Time<a class="secondary-content">${userInfo[0].time ? userInfo[0].time : 'N/A'}</a></div></li>
+            <li class="collection-item"><div class="_collection-item-text">IP<a class="secondary-content">${userInfo[0].ip ? userInfo[0].ip : 'N/A'}</a></div></li>
+            <li class="collection-item"><div class="_collection-item-text">Command<a class="secondary-content">${userInfo[0].command ? userInfo[0].command : 'N/A'}</a></div></li>
+        </ul>
+    `;
+    }
+
     const displayOutput = `
         <div class="row">
             <div class="col l6 m12 s12 animate__animated animate__fadeIn">
@@ -200,16 +215,8 @@ module.exports.buildOSInfo = (osInfo, uuid, userInfo, packagesInfo) => {
                 </ul>
             </div>
             <div class="col l6 m12 s12 animate__animated animate__fadeIn">
+                ${uInfo}
                 <ul class="collection with-header">
-                    <li class="collection-header"><span class="_collection-header-text">User</span><span class="_collection-header-icon"><i class="small material-icons">account_circle</i></span></li>
-                    <li class="collection-item"><div class="_collection-item-text">User<a class="secondary-content">${userInfo[0].user ? userInfo[0].user : 'N/A'}</a></div></li>
-                    <li class="collection-item"><div class="_collection-item-text">TTY<a class="secondary-content">${userInfo[0].tty ? userInfo[0].tty : 'N/A'}</a></div></li>
-                    <li class="collection-item"><div class="_collection-item-text">Date<a class="secondary-content">${userInfo[0].date ? userInfo[0].date : 'N/A'}</a></div></li>
-                    <li class="collection-item"><div class="_collection-item-text">Time<a class="secondary-content">${userInfo[0].time ? userInfo[0].time : 'N/A'}</a></div></li>
-                    <li class="collection-item"><div class="_collection-item-text">IP<a class="secondary-content">${userInfo[0].ip ? userInfo[0].ip : 'N/A'}</a></div></li>
-                    <li class="collection-item"><div class="_collection-item-text">Command<a class="secondary-content">${userInfo[0].command ? userInfo[0].command : 'N/A'}</a></div></li>
-                    </ul>
-                    <ul class="collection with-header">
                     <li class="collection-header"><span class="_collection-header-text">Software Packages</span><span class="_collection-header-icon"><i class="small material-icons">settings_input_component</i></span></li>
                     <li class="collection-item _soft-ver">Version</li>
                     ${packagesInfo}

@@ -13,8 +13,7 @@ function createAppWindow() {
 
         webPreferences: {
 
-            nodeIntegration: true,
-            devTools: true
+            nodeIntegration: true
         },
         show: false,
         width: 1123,
@@ -53,9 +52,6 @@ function createAppMenu() {
         {
             label: 'View',
             submenu: [{
-                    type: 'toggledevtools'
-                },
-                {
                     type: 'separator'
                 },
                 {
