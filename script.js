@@ -1,5 +1,6 @@
 const {
-    app
+    app,
+    shell
 } = require('electron').remote;
 const {
 
@@ -51,6 +52,7 @@ const graphicsLinks = document.querySelectorAll('#graphics-link');
 const osLinks = document.querySelectorAll('#os-link');
 const processesLinks = document.querySelectorAll('#processes-link');
 const networkLinks = document.querySelectorAll('#network-link');
+const aboutLinks = document.querySelectorAll('#about-link');
 
 bindClickEventToLinks(systemLinks, viewSystemInfo);
 bindClickEventToLinks(cpuLinks, viewCPUInfo);
@@ -60,6 +62,7 @@ bindClickEventToLinks(graphicsLinks, viewGraphicsInfo);
 bindClickEventToLinks(osLinks, viewOsInfo);
 bindClickEventToLinks(processesLinks, viewProcessessInfo);
 bindClickEventToLinks(networkLinks, viewNetworkInfo);
+bindClickEventToLinks(aboutLinks, viewAboutInfo);
 
 const loader = `
     <div class="preloader-wrapper big active _loader">
@@ -662,6 +665,35 @@ async function viewProcessessInfo() {
     mainContent.innerHTML = buildProcessesInfo(processes);
     const canvas = document.querySelector('#cpu-graph').getContext('2d');
     buildCPUGraph(canvas);
+}
+
+async function viewAboutInfo() {
+
+    initializePageView(aboutLinks);
+
+    const aboutContent = await (await fetch('./about.html')).text();
+
+    const version = app.getVersion();
+    const {
+        electron,
+        node,
+        v8
+    } = process.versions;
+
+    const aboutPageMarkup = new DOMParser().parseFromString(aboutContent, 'text/html');
+
+    aboutPageMarkup.querySelector('#app-version').textContent = version;
+    aboutPageMarkup.querySelector('#electron-version').textContent = electron;
+    aboutPageMarkup.querySelector('#node-version').textContent = node;
+    aboutPageMarkup.querySelector('#v8-version').textContent = v8;
+
+    aboutPageMarkup.querySelector('#source-code-btn').addEventListener('click', () => shell.openExternal('https://github.com/Abdul-Moiz-Ali/System-Diagnose'));
+    aboutPageMarkup.querySelector('#github-btn').addEventListener('click', () => shell.openExternal('https://github.com/Abdul-Moiz-Ali'));
+
+    setTimeout(() => {
+        mainContent.innerHTML = '';
+        mainContent.appendChild(aboutPageMarkup.querySelector('.row'));
+    }, 750);
 }
 
 viewSystemInfo();

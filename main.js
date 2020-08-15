@@ -13,8 +13,7 @@ function createAppWindow() {
 
         webPreferences: {
 
-            nodeIntegration: true,
-            devTools: true
+            nodeIntegration: true
         },
         show: false,
         width: 1123,
@@ -53,9 +52,6 @@ function createAppMenu() {
         {
             label: 'View',
             submenu: [{
-                    role: 'toggledevtools'
-                },
-                {
                     type: 'separator'
                 },
                 {
@@ -108,7 +104,7 @@ function createAppMenu() {
                     const {
                         shell
                     } = require('electron')
-                    await shell.openExternal('https://github.com/Abdul-Moiz-Ali/Country-Information-App')
+                    await shell.openExternal('https://github.com/Abdul-Moiz-Ali/System-Diagnose')
                 }
             }]
         }
