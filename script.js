@@ -10,7 +10,8 @@ const {
     buildOSInfo,
     buildDiskLayoutInfo,
     buildDrivesInfo,
-    buildNetworkInfo
+    buildNetworkInfo,
+    buildProcessesInfo
 
 } = require('./builder');
 const si = require('systeminformation');
@@ -231,6 +232,11 @@ async function updatememoryGraph(graph) {
             swapused
         } = await si.mem();
 
+        document.querySelector('#used-mem').textContent = `${used ? `${(used / (Math.pow(2, 30))).toFixed(2)} GB` : 'N/A'}`;
+        document.querySelector('#free-mem').textContent = `${free ? `${(free / (Math.pow(2, 30))).toFixed(2)} GB` : 'N/A'}`;
+        document.querySelector('#used-vm').textContent = `${swapused ? `${(swapused / (Math.pow(2, 30))).toFixed(2)} GB` : 'N/A'}`;
+        document.querySelector('#free-vm').textContent = `${swapfree ? `${(swapfree / (Math.pow(2, 30))).toFixed(2)} GB` : 'N/A'}`;
+
         const usagePercentage = (Math.ceil((used / (total / 100)))).toFixed(2);
 
         graph.data.datasets[0].data.push({
@@ -240,10 +246,6 @@ async function updatememoryGraph(graph) {
 
         graph.update();
 
-        document.querySelector('#used-mem').textContent = `${used ? `${(used / (Math.pow(2, 30))).toFixed(2)} GB` : 'N/A'}`;
-        document.querySelector('#free-mem').textContent = `${free ? `${(free / (Math.pow(2, 30))).toFixed(2)} GB` : 'N/A'}`;
-        document.querySelector('#used-vm').textContent = `${swapused ? `${(swapused / (Math.pow(2, 30))).toFixed(2)} GB` : 'N/A'}`;
-        document.querySelector('#free-vm').textContent = `${swapfree ? `${(swapfree / (Math.pow(2, 30))).toFixed(2)} GB` : 'N/A'}`;
     } catch (error) {
         graph.destroy();
     }
@@ -469,6 +471,10 @@ async function updateNetworkGraph(graph) {
 
     try {
         const networkStats = await si.networkStats();
+
+        document.querySelector('#bytes-tr').textContent = `${(networkStats[0].tx_bytes / (Math.pow(2, 20))).toFixed(2)} MB`;
+        document.querySelector('#bytes-rx').textContent = `${(networkStats[0].rx_bytes / (Math.pow(2, 20))).toFixed(2)} MB`;
+
         graph.data.datasets[0].data.push({
             x: Date.now(),
             y: (networkStats[0].tx_sec / (Math.pow(2, 10))).toFixed(2)
@@ -480,10 +486,8 @@ async function updateNetworkGraph(graph) {
 
         graph.update();
 
-        document.querySelector('#bytes-tr').textContent = `${(networkStats[0].tx_bytes / (Math.pow(2, 20))).toFixed(2)} MB`
-        document.querySelector('#bytes-rx').textContent = `${(networkStats[0].rx_bytes / (Math.pow(2, 20))).toFixed(2)} MB`
     } catch (error) {
-
+        graph.destroy();
     }
 }
 
@@ -573,9 +577,91 @@ async function viewNetworkInfo() {
     buildNetworkGraph(canvas);
 }
 
+async function updateCPUGraph(graph) {
+
+    if (document.querySelector('#cpu-graph') === null)
+        graph.destroy();
+    else {
+        const load = await si.currentLoad();
+        graph.data.datasets[0].data.push({
+            x: Date.now(),
+            y: load.currentload.toFixed(2)
+        });
+
+        graph.update();
+    }
+}
+
+function buildCPUGraph(canvas) {
+
+    const cpuGraph = new Chart(canvas, {
+        type: 'line',
+        data: {
+            datasets: [{
+                label: '% Utilization',
+                borderColor: '#80cbc4',
+                backgroundColor: 'rgb(219, 243, 242, 0.5)',
+                borderWidth: 4,
+                cubicInterpolationMode: 'monotone',
+                lineTension: 0,
+                pointRadius: 0,
+                data: []
+            }]
+        },
+        options: {
+            legend: {
+                labels: {
+                    fontColor: '#90a4ae',
+                    fontSize: 14,
+                    padding: 12,
+                    fontStyle: 'bold'
+                }
+            },
+            title: {
+                display: true,
+                text: 'CPU',
+                position: 'top',
+                fontColor: '#90a4ae',
+                fontSize: 14,
+                padding: 16
+            },
+            scales: {
+                xAxes: [{
+                    type: 'realtime',
+                    realtime: {
+                        duration: 20000,
+                        refresh: 1000,
+                        delay: 1000,
+                        onRefresh: updateCPUGraph
+                    }
+                }],
+                yAxes: [{
+                    ticks: {
+                        callback: (value) => value + '%'
+                    }
+                }]
+            },
+            tooltips: {
+                mode: 'nearest',
+                intersect: false
+            },
+            hover: {
+                mode: 'nearest',
+                intersect: false
+            }
+        }
+    });
+}
+
 async function viewProcessessInfo() {
 
     initializePageView(processesLinks);
+
+    const processes = await si.processes();
+
+    mainContent.innerHTML = buildProcessesInfo(processes);
+    const canvas = document.querySelector('#cpu-graph').getContext('2d');
+    buildCPUGraph(canvas);
 }
 
 viewSystemInfo();

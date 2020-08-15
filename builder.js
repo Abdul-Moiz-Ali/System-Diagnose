@@ -373,7 +373,7 @@ module.exports.buildNetworkInfo = (interfaces, defaultInterface, defaultGateway,
     <div class="row">
         <div class="col l5 m12 s12 animate__animated animate__fadeIn">
             <ul class="collection with-header">
-                <li class="collection-header"><span class="_collection-header-text">${defaultInterface}</span><span class="_collection-header-icon"><i class="small material-icons">${defaultInterface === 'Wi-Fi'?'wifi':'public'}</i></span></li>
+                <li class="collection-header"><span class="_collection-header-text">${defaultInterface}</span><span class="_collection-header-icon"><i class="small material-icons">${defaultInterface === 'Wi-Fi'?'wifi':'language'}</i></span></li>
                 <li class="collection-item"><div class="_collection-item-text">Interface Name<a class="secondary-content">${interface.ifaceName ? interface.ifaceName : 'N/A'}</a></div></li>
                 <li class="collection-item"><div class="_collection-item-text">Bytes Transferred<a id="bytes-tr" class="secondary-content">${networkStats.tx_bytes ? `${(networkStats.tx_bytes / (Math.pow(2, 20))).toFixed(2)} MB` : 'N/A'}</a></div></li>
                 <li class="collection-item"><div class="_collection-item-text">Bytes Received<a id="bytes-rx" class="secondary-content">${networkStats.rx_bytes ? `${(networkStats.rx_bytes / (Math.pow(2, 20))).toFixed(2)} MB` : 'N/A'}</a></div></li>
@@ -396,6 +396,68 @@ module.exports.buildNetworkInfo = (interfaces, defaultInterface, defaultGateway,
             <canvas id="net-graph">
             </canvas>
         </div>
+        </div>
+    </div>
+    `;
+
+    return displayOutput;
+}
+
+function buildProcessesTable(processes) {
+
+    processes.list.reverse();
+    const rows = processes.list.map(proc => {
+
+        return `
+        <tr>
+            <td class="_table-td">${proc.name?proc.name:'N/A'}</td>
+            <td class="_table-td">${proc.pid?proc.pid:'N/A'}</td>
+            <td class="_table-td">${proc.parentPid?proc.parentPid:'N/A'}</td>
+            <td class="_table-td">${proc.command?proc.command:'N/A'}</td>
+            <td class="_table-td">${proc.priority?proc.priority:'N/A'}</td>
+            <td class="_table-td">${proc.path?proc.path:'N/A'}</td>
+            <td class="_table-td">${proc.started?proc.started:'N/A'}</td>
+        </tr>
+        `;
+    }).join().replace(/,/g, '');
+
+    const output = `
+    <div class="_table-container">
+        <table class="table-responsive">
+            <div class="_table-header-container"><span class="_collection-header-text">Processes (${processes.all})</span></div>
+            <thead>
+                <tr>
+                    <td class="_collection-item-text">Name</td>
+                    <td class="_collection-item-text">PID</td>
+                    <td class="_collection-item-text">Parent PID</td>
+                    <td class="_collection-item-text">Command</td>
+                    <td class="_collection-item-text">Priority</td>
+                    <td class="_collection-item-text">Path</td>
+                    <td class="_collection-item-text">Started</td>
+                </tr>
+            </thead>
+            <tbod>
+                ${rows}
+            </tbod>
+        </table>
+    </div>
+    `;
+
+    return output;
+}
+
+module.exports.buildProcessesInfo = (processes) => {
+
+    const displayOutput = `
+    <div class="row">
+        <div class="col l6 m12 s12 animate__animated animate__fadeIn">
+            ${buildProcessesTable(processes)}
+        </div>
+        <div class="col l6 m12 s12 animate__animated animate__fadeIn">
+            <div class="_graph-container">
+                <canvas id="cpu-graph">
+                </canvas>
+            </div>
         </div>
     </div>
     `;

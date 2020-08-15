@@ -1,4 +1,3 @@
-
 body {
 
     background-color: #eceff1;
@@ -70,7 +69,7 @@ body {
     height: 56px;
     margin: 0 18px;
 }
-  
+
 ._sidenav-trigger i {
 
     height: 56px;
@@ -93,9 +92,10 @@ body {
 }
 
 ._charging-progress {
-    
+
     height: 7px !important;
-    width: 50% !important; /* 50% */
+    width: 50% !important;
+    /* 50% */
 }
 
 .determinate {
@@ -183,7 +183,8 @@ body {
         display: none !important;
     }
 
-    ._sidenav-trigger, ._sidenav-trigger i {
+    ._sidenav-trigger,
+    ._sidenav-trigger i {
 
         height: 64px;
         line-height: 64px;
