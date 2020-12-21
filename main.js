@@ -104,7 +104,7 @@ function createAppMenu() {
                     const {
                         shell
                     } = require('electron')
-                    await shell.openExternal('https://github.com/Abdul-Moiz-Ali/System-Diagnose')
+                    await shell.openExternal('https://github.com/AbdulMoizAli/System-Diagnose')
                 }
             }]
         }

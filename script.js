@@ -687,8 +687,8 @@ async function viewAboutInfo() {
     aboutPageMarkup.querySelector('#node-version').textContent = node;
     aboutPageMarkup.querySelector('#v8-version').textContent = v8;
 
-    aboutPageMarkup.querySelector('#source-code-btn').addEventListener('click', () => shell.openExternal('https://github.com/Abdul-Moiz-Ali/System-Diagnose'));
-    aboutPageMarkup.querySelector('#github-btn').addEventListener('click', () => shell.openExternal('https://github.com/Abdul-Moiz-Ali'));
+    aboutPageMarkup.querySelector('#source-code-btn').addEventListener('click', () => shell.openExternal('https://github.com/AbdulMoizAli/System-Diagnose'));
+    aboutPageMarkup.querySelector('#github-btn').addEventListener('click', () => shell.openExternal('https://github.com/AbdulMoizAli'));
 
     setTimeout(() => {
         mainContent.innerHTML = '';
