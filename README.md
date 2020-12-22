@@ -1,10 +1,10 @@
+<img src="./assets/icons/png/icon.png" width="100" height="100" alt="Logo of the project" align="right">
+
 # Electron System Diagnose Desktop App
 
-<p align="center"><img src="assets/icons/png/icon.png" width="100" height="100"></p>
+This is a cross platform System Diagnose desktop application built on electron.
 
-<p align="center">This is a cross platform System Diagnose desktop application built on electron.</p>
-
-> [Download release builds for windows](https://github.com/AbdulMoizAli/System-Diagnose/releases/download/v1.0.0/win32-release-builds.zip)
+> [Download the app for windows](https://github.com/AbdulMoizAli/System-Diagnose/releases/download/v1.0.0/win32-release-builds.zip)
 
 ### Version
 1.0.0
