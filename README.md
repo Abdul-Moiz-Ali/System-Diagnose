@@ -4,6 +4,8 @@
 
 <p align="center">This is a cross platform System Diagnose desktop application built on electron.</p>
 
+> [Download release builds for windows](https://github.com/AbdulMoizAli/System-Diagnose/releases/download/v1.0.0/win32-release-builds.zip)
+
 ### Version
 1.0.0
 
