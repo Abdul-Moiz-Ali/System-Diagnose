@@ -1,17 +1,18 @@
 <img src="./assets/icons/png/icon.png" width="100" height="100" alt="Logo of the project" align="right">
 
-# Electron System Diagnose Desktop App
+# Electron System Diagnose Desktop App 📈
 
 This is a cross platform System Diagnose desktop application built on electron.
 
-> [Download the app for windows](https://github.com/AbdulMoizAli/System-Diagnose/releases/download/v1.0.0/win32-release-builds.zip)
+> [Download the app for windows 🔗](https://github.com/AbdulMoizAli/System-Diagnose/releases/download/v1.0.0/win32-release-builds.zip)
 
-### Version
+### Version 🆚
+
 1.0.0
 
-## Usage
+## Usage ⚙
 
-### Installation
+### Installation ⬇
 
 Install the dependencies
 
@@ -19,14 +20,15 @@ Install the dependencies
 $ npm install
 ```
 
-### Serve
+### Serve 🖥
+
 To run electron
 
 ```sh
 $ npm start
 ```
 
-### To Package & Build
+### To Package & Build 📦
 
 For Windows
 
@@ -46,7 +48,7 @@ For Linux
 $ npm run package-linux
 ```
 
-## Mockups
+## Mockups 🖼
 
 ![](images/image-1.png)
 
